@@ -30,44 +30,64 @@ module.exports = class extends Command {
 
         const db = this.client.providers.get('mysql')
 
-        if(!user) {
+        if(!user) user = message.author
 
-            let money;
-            let vaultbalance;
+        let moneyy;
+        let vaultbalancee;
 
-            const moneyDB = await db.run(`SELECT * FROM usermoney WHERE userID = ${message.author.id}`)
+        const moneyDB1 = await db.run(`SELECT * FROM usermoney WHERE userID = ${user.id}`)
 
-            if(!moneyDB) {
-                money = "No money!"
-                vaultbalance = "No vault!"
-            } else {
+        if(!moneyDB1) {
+            moneyy = "No money!"
+            vaultbalancee = "No vault!"
+        } else {
 
-                const lvlDB = await db.run(`SELECT * from userlevels WHERE userID = ${message.author.id}`)
-                const commUsed = await db.run(`SELECT * FROM commandsused WHERE userID = ${message.author.id}`)
-                let lvl = lvlDB.level
-                let xp = lvlDB.userXP
-
-                if(moneyDB.hasVault === 0) vaultbalance = "No vault!"
-
-                money = moneyDB.balance
-                vaultbalance = moneyDB.VaultBalance
-
-                let embed = new MessageEmbed()
-                .setTitle(`**${message.author.tag}s profile!**`)
-                .setThumbnail(message.author.displayAvatarURL())
-                .setColor("RANDOM")
-                .addField('**Currency**:', `**Wallet**: €${money}\n**Vault balance**: €${vaultbalance}`, true)
-                .addField(`**Level and XP**:`, `**Level**: ${lvl}\n**XP**: ${xp}`, true)
-                .addField(`**Other stats**:`, `Commands used: ${commUsed.commandsUsed}`)
-                .setFooter(`You gain XP and levels by sending messages, you can get money by using !daily`)
-
-                return message.send(embed)
-
-
-            }
-
-
+            if(!moneyDB1.hasVault) vaultbalancee = "No vault!"
+            else vaultbalancee = `€${moneyDB1.VaultBalance}`
+         
+            moneyy = `€${moneyDB1.balance}`
+            
         }
+            
+        
+            
+            const lvlDB1 = await db.run(`SELECT * from userlevels WHERE userID = ${user.id}`)
+            const commUsed1 = await db.run(`SELECT * FROM commandsused WHERE userID = ${user.id}`)
+
+            let level1;
+            let xp1;
+            
+            let commandsRan;
+
+            if(!lvlDB1) {
+                level1 = "0"
+                xp1 = "0"
+            }
+            
+            if(!commUsed1) commandsRan = "0" 
+            else commandsRan = commUsed1.commandsUsed;
+
+            if(!lvlDB1.level) level1 = "0"
+            else level1 = lvlDB1.level;
+
+            if(!lvlDB1.userXP) xp1 = "0"
+            else xp1 = lvlDB1.userXP
+            
+            let embed1 = new MessageEmbed()
+            .setTitle(`**${user.tag}s profile!**`)
+            .setThumbnail(user.displayAvatarURL())
+            .setColor("RANDOM")
+            .addField('**Currency**:', `**Wallet**: ${moneyy}\n**Vault balance**: ${vaultbalancee}`, true)
+            .addField(`**Level and XP**:`, `**Level**: ${level1}\n**XP**: ${xp1}`, true)
+            .addField(`**Other stats**:`, `Commands used: ${commandsRan}`)
+            .setFooter(`You gain XP and levels by sending messages, you can get money by using !daily`)
+
+            return message.send(embed1)
+
+        
+
+
+    
         
     }
 
