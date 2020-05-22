@@ -12,6 +12,9 @@ module.exports = class extends Monitor {
 	}
 
 	async run(message) {
+
+		const db = this.client.providers.get("mysql")
+
 		if (message.guild && !message.guild.me) await message.guild.members.fetch(this.client.user);
 		if (!message.channel.postable) return undefined;
 		if (this.mentionOnly.test(message.content)) return message.sendLocale('PREFIX_REMINDER', [message.guildSettings.prefix.length ? message.guildSettings.prefix : undefined]);
@@ -20,8 +23,32 @@ module.exports = class extends Monitor {
 		if (!commandText) return undefined;
 		const command = this.client.commands.get(commandText);
 		if (!command) return this.client.emit('commandUnknown', message, commandText, prefix, prefixLength);
-		if(message.channel.id)
-		return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));
+		
+		const { commandChannel } = message.guild.settings
+
+		if (!message.guild || !commandChannel) return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));;
+		
+		const check = await db.run(`SELECT * FROM commandsused WHERE userID = ${message.author.id}`)
+		
+		if(!check) {
+			await db.run(`INSERT INTO commandsused (userID, commandsUsed) VALUES ('${message.author.id}', 0)`)
+		}
+
+		if (await message.hasAtLeastPermissionLevel(5)) {
+			
+			await db.run(`UPDATE commandsused SET commandsUsed = ${check.commandsUsed + 1} WHERE userID = ${message.author.id}`)
+			return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));
+		}
+		
+		if (commandChannel.includes(message.channel.id)) {
+			
+			await db.run(`UPDATE commandsused SET commandsUsed = ${check.commandsUsed + 1} WHERE userID = ${message.author.id}`)
+			return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));
+		}
+
+		return undefined;
+			
+
 	}
 
 	parseCommand(message) {

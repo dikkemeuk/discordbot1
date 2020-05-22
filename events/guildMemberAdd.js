@@ -4,6 +4,15 @@ const { MessageEmbed } = require("discord.js")
 module.exports = class extends Event {
 
 	async run(member) {
+
+		const db = this.client.providers.get('mysql')
+
+		const dbCheck = await db.run(`SELECT * FROM userMoney WHERE userID = ${member.id}`)
+
+        if(!dbCheck) {
+           return db.run(`INSERT INTO usermoney (userID, userTAG, balance, dailyUsedAt, canUseDaily, hasStreak, losingStreakAt, hasVault, vaultSize, VaultBalance, maxVault) VALUES ('${member.id}', '${member.user.tag}', 0, NULL, NULL, '0', NULL, '0', '0', '0', '0')`)
+        }
+
 		const { autoAssignRole } = member.guild.settings;
 		const { welcomeChannel } = member.guild.settings;
 		
@@ -29,6 +38,8 @@ module.exports = class extends Event {
 		if (!hasManageRoles) return null;
 
 		return member.roles.add(autoAssignRole);
+
+		
 	}
 
 };
