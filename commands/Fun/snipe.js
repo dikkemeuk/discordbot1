@@ -81,11 +81,13 @@ module.exports = class extends Command {
 
         } if(channel){
 
-            let channelSnipes = this.client.channelSnipes.get(channel.id).filter(obj => {
+            let channelSnipes = this.client.channelSnipes.get(channel.id)
+            
+            if(!channelSnipes) return message.send(`No deleted messages found!`)
+            
+            let snipes = await channelSnipes.filter(obj => {
                 return obj.channel === channel
             })
-            if(!channelSnipes) return message.send("No deleted messages found!")
-            let snipes = channelSnipes
             
             if(!snipes[0]) return message.send("No deleted messages found!")
 

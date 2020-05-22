@@ -1,6 +1,9 @@
 # Dependency Files
 node_modules/
 package-lock.json
+application.yml
+
+providers/mysql
 
 # Log Files
 logs/

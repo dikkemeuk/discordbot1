@@ -39,11 +39,11 @@ module.exports = class extends SQLProvider {
 
 	async init() {
 		const connection = mergeDefault({
-			host: 'db-host (localhost)',
+			host: 'localhost',
 			port: 3306,
-			user: 'db-user',
-			password: 'dbuser-password',
-			database: 'db'
+			user: 'root',
+			password: 'Speedy12.',
+			database: 'discordbot'
 		}, this.client.options.providers.mysql);
 		this.db = await mysql.createConnection({
 			host: connection.host,

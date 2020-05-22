@@ -31,7 +31,7 @@ module.exports = class extends Event {
             let moneyCheck = await db.run(`SELECT * FROM usermoney WHERE userID = ${message.author.id}`)
 
             if(check.level < 5) {
-                message.send(`LEVEL UP`)
+                
                 return await db.run(`UPDATE usermoney SET balance = ${moneyCheck.balance + 100} WHERE userID = ${message.author.id}`)
 
             }  if(check.level > 5 && check.level < 10) {
@@ -47,7 +47,7 @@ module.exports = class extends Event {
                 return await db.run(`UPDATE usermoney SET balance = ${moneyCheck.balance + 400} WHERE userID = ${message.author.id}`)
 
             } if(check.level > 20) {
-                message.send(`LEVEL UP`)
+                
                 return await db.run(`UPDATE usermoney SET balance = ${moneyCheck.balance + 500} WHERE userID = ${message.author.id}`)
 
             }

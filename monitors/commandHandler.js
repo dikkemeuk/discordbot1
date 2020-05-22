@@ -39,6 +39,13 @@ module.exports = class extends Monitor {
 			await db.run(`UPDATE commandsused SET commandsUsed = ${check.commandsUsed + 1} WHERE userID = ${message.author.id}`)
 			return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));
 		}
+
+		if(!commandChannel) {
+
+			await db.run(`UPDATE commandsused SET commandsUsed = ${check.commandsUsed + 1} WHERE userID = ${message.author.id}`)
+			return this.runCommand(message._registerCommand({ command, prefix, prefixLength }));
+
+		}
 		
 		if (commandChannel.includes(message.channel.id)) {
 			

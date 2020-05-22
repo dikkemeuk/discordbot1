@@ -1,8 +1,8 @@
 {
-  "name": "margarine",
+  "name": "upbot",
   "version": "1.1.0",
   "description": "Javascript bot using the Klasa framework",
-  "main": "index.js",
+  "main": "upbot.js",
   "dependencies": {
     "@discordjs/opus": "^0.1.0",
     "@ksoft/api": "^3.1.9",
@@ -82,8 +82,8 @@
     "start": "node upbot.js"
   },
   "author": {
-    "name": "Frederick Katsura",
-    "email": "katsurinstudios@protonmail.ch"
+    "name": "DikkeMeuk",
+    "email": "ikbensyl@gmail.com"
   },
   "license": "Apache-2.0"
 }
