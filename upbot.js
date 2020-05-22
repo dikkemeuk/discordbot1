@@ -5,7 +5,7 @@ const { Shoukaku } = require('shoukaku');
 const Queue = require('./modules/Queue.js');
 const Logger = require('./modules/logger.js');
 
-const LavalinkServer = [{ name: 'Localhost', host: 'localhost', port: 2333, auth: 'Speedy12' }];
+const LavalinkServer = [{ name: 'Localhost', host: 'localhost', port: 2333, auth: 'password' }];
 const ShoukakuOptions = { moveOnDisconnect: false, resumable: false, resumableTimeout: 30, reconnectTries: 2, restTimeout: 10000 };
 
 
