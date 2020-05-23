@@ -41,8 +41,8 @@ module.exports = class extends SQLProvider {
 		const connection = mergeDefault({
 			host: 'localhost',
 			port: 3306,
-			user: 'root',
-			password: 'Speedy12.',
+			user: 'user',
+			password: 'password',
 			database: 'discordbot'
 		}, this.client.options.providers.mysql);
 		this.db = await mysql.createConnection({
